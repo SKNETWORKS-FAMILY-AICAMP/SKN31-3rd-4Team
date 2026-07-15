@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 import streamlit as st
 from db_utils import create_patient, create_patient_table
 from api_utils import get_api_response
-from graph_db.workflow import build_workflow
-from graph_db.chat_graph_db import ChatGraphDB
 
 load_dotenv()
 
@@ -29,7 +27,7 @@ create_patient_table()
 # ------------------------------------------------------------------
 # css 함수
 # ------------------------------------------------------------------
-def load_css(file_name: str = "style.css") -> None:
+def load_css(file_name: str = "demo/style.css") -> None:
     css_path = Path(__file__).parent / file_name
 
     if not css_path.exists():
@@ -40,7 +38,7 @@ def load_css(file_name: str = "style.css") -> None:
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
-load_css("style.css")
+load_css("demo/style.css")
 
 st.markdown(
     """
@@ -55,22 +53,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown("---")
-if st.button("🧹 대화 초기화"):
-    if st.session_state.get("patient_id"):
-        chat_db = ChatGraphDB()
-        try:
-            session_id = chat_db.create_session(st.session_state.patient_id)
-            st.session_state.session_id = session_id
-            st.session_state.history = []
-            st.session_state.last_citations = []
-            st.session_state.neo4j_graph = chat_db.get_session_graph(session_id)
-        finally:
-            chat_db.close()  
-    else:
-        st.session_state.history = []
-        st.session_state.last_citations = []
-    st.rerun()
     
 # ------------------------------------------------------------------
 #! 1. 사이드바 : 사용자 입력 정보
@@ -173,10 +155,6 @@ def display_chat_interface():
         st.session_state.thread_id = st.session_state.patient["thread_id"]
     if "patient_id" not in st.session_state:
         st.session_state.patient_id = st.session_state.patient["patient_id"]
-    if "workflow" not in st.session_state:
-        st.session_state.workflow = build_workflow(patient_id=st.session_state.patient_id)
-    if "last_citations" not in st.session_state:
-        st.session_state.last_citations = []
     if "messages" not in st.session_state:
         st.session_state.messages = []
 

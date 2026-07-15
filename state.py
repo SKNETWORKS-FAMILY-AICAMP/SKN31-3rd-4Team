@@ -78,7 +78,6 @@ class RouteResult(BaseModel):
         description="약에 대한 정보 조회가 필요한지 알려줘"
     )
     
-        
 class ChatRequest(BaseModel):
     query: str
     thread_id: str
