@@ -231,11 +231,11 @@ flowchart LR
 ```
 
 **노드 카테고리**
- 🔵 환자 (Patient)
- 🟠 약물 (Drug)
- 🟡 질환·증상·부작용 (Disease / SideEffect / Symptom / Condition)
- 🟢 상담 기록 (ChatSession / Message)
- 🟣 논문 (Paper)
+- 🔵 환자 (Patient)
+- 🟠 약물 (Drug)
+- 🟡 질환·증상·부작용 (Disease / SideEffect / Symptom / Condition)
+- 🟢 상담 기록 (ChatSession / Message)
+- 🟣 논문 (Paper)
 
 ## Property 설계
 
