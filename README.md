@@ -1,9 +1,5 @@
 # 💊 복약메이트 — 정신과 복약 관리 챗봇
 
-LangGraph 기반, Personal Graph(PGHD) + Medical Graph(Drug-Disease-Paper)를 결합한
-설명 가능(Explainable) 개인화 복약 상담 챗봇입니다. 정신과 의사(AI)와 환자(사용자)의 역할로
-대화할 수 있습니다.
-
 <br>
 
 <p align="center">
