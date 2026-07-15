@@ -8,7 +8,7 @@ from api_utils import get_api_response
 st.session_state.model = "gpt-5.4-mini"
 
 st.set_page_config(
-    page_title="약한AI 복약 상담 챗봇",
+    page_title="복약 메이트 챗봇",
     page_icon="💊",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -38,7 +38,7 @@ st.markdown(
     <div class="app-hero">
         <div class="emoji-badge">💊</div>
         <div>
-            <h1>약한AI 복약 상담 챗봇</h1>
+            <h1>복약 메이트 챗봇</h1>
             <p>정신질환 약물 부작용 상담 &amp; 복용 용법 안내를 도와드려요 🌤️</p>
         </div>
     </div>
