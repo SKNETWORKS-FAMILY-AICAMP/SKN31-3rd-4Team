@@ -194,18 +194,48 @@ psych_med_chatbot/
 
 ## Relationship 설계
 
-| Relationship | 설명 |
-|---|---|
-| Patient → TAKES → Drug | 환자가 복용 중인 약물 |
-| Drug → TREATS → Disease | 약물이 치료하는 질환 |
-| Drug → CAUSES_SIDE_EFFECT → SideEffect | 약물 부작용 |
-| SideEffect → PRESENTS_AS → Symptom | 부작용으로 나타나는 증상 |
-| Patient → HAS_SYMPTOM → Symptom | 환자가 현재 겪는 증상 |
-| Patient → HAS_CONDITION → Condition | 환자의 기저질환 |
-| Drug → INTERACTS_WITH → Drug | 병용 약물 상호작용 |
-| Patient → HAS_SESSION → ChatSession | 상담 세션 |
-| ChatSession → HAS_MESSAGE → Message | 상담 메시지 |
-| Drug → REFERENCED_BY → Paper | 근거 논문 |
+```mermaid
+flowchart LR
+  Patient(["Patient"])
+  Drug(["Drug"])
+  Disease(["Disease"])
+  SideEffect(["SideEffect"])
+  Symptom(["Symptom"])
+  Condition(["Condition"])
+  ChatSession(["ChatSession"])
+  Message(["Message"])
+  Paper(["Paper"])
+
+  Patient -->|"TAKES<br/>복용"| Drug
+  Drug -->|"TREATS<br/>치료"| Disease
+  Drug -->|"CAUSES_SIDE_EFFECT<br/>부작용 유발"| SideEffect
+  SideEffect -->|"PRESENTS_AS<br/>증상 발현"| Symptom
+  Patient -->|"HAS_SYMPTOM<br/>증상 있음"| Symptom
+  Patient -->|"HAS_CONDITION<br/>기저질환 보유"| Condition
+  Drug -->|"INTERACTS_WITH<br/>병용 상호작용"| Drug
+  Patient -->|"HAS_SESSION<br/>세션 보유"| ChatSession
+  ChatSession -->|"HAS_MESSAGE<br/>메시지 포함"| Message
+  Drug -->|"REFERENCED_BY<br/>근거 논문"| Paper
+
+  classDef patient fill:#E6F1FB,stroke:#185FA5,color:#0C447C
+  classDef drug fill:#FAECE7,stroke:#993C1D,color:#712B13
+  classDef clinical fill:#FAEEDA,stroke:#854F0B,color:#633806
+  classDef session fill:#E1F5EE,stroke:#0F6E56,color:#085041
+  classDef paper fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+
+  class Patient patient
+  class Drug drug
+  class Disease,SideEffect,Symptom,Condition clinical
+  class ChatSession,Message session
+  class Paper paper
+```
+
+**노드 카테고리**
+ 🔵 환자 (Patient)
+ 🟠 약물 (Drug)
+ 🟡 질환·증상·부작용 (Disease / SideEffect / Symptom / Condition)
+ 🟢 상담 기록 (ChatSession / Message)
+ 🟣 논문 (Paper)
 
 ## Property 설계
 
