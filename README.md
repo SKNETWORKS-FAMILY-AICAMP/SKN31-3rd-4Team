@@ -124,7 +124,7 @@ psych_med_chatbot/
 └──────────────────────────────────────────────┘
 ```
 ---
-### 🏗️ GraphDB(Neo4J) DB 설계****
+### 🏗️ GraphDB(Neo4J) DB 설계
 
 본 프로젝트는 **Personal Graph**와 **Medical Graph**를 Neo4j에서 함께 관리하여 환자의 복약 정보와 의료 지식을 연결하는 Explainable RAG 구조를 사용합니다.
 
@@ -209,75 +209,17 @@ psych_med_chatbot/
 
 ## Property 설계
 
-### Patient
-
-| Property | Type | 설명 |
-|----------|------|------|
-| patient_id | String | 환자 고유 ID |
-| name | String | 이름 |
-| age | Integer | 나이 |
-| gender | String | 성별 |
-| pregnancy | Boolean | 임신 여부 |
-
-### Drug
-
-| Property | Type | 설명 |
-|----------|------|------|
-| drug_id | String | 약물 고유 ID |
-| drug_name | String | 약물명 |
-| ingredient_code | String | 주성분 코드 |
-| category | String | 약물 계열(SSRI 등) |
-| dosage | String | 복용 용량 |
-
-### Disease
-
-| Property | Type | 설명 |
-|----------|------|------|
-| disease_name | String | 질환명 |
-
-### SideEffect
-
-| Property | Type | 설명 |
-|----------|------|------|
-| side_effect_name | String | 부작용명 |
-| frequency | String | 발생 빈도 |
-
-### Symptom
-
-| Property | Type | 설명 |
-|----------|------|------|
-| symptom_name | String | 증상명 |
-| severity | Integer | 증상 심각도 |
-
-### Condition
-
-| Property | Type | 설명 |
-|----------|------|------|
-| condition_name | String | 기저질환명 |
-
-### ChatSession
-
-| Property | Type | 설명 |
-|----------|------|------|
-| session_id | String | 상담 세션 ID |
-| created_at | DateTime | 생성 시간 |
-
-### Message
-
-| Property | Type | 설명 |
-|----------|------|------|
-| message_id | String | 메시지 ID |
-| role | String | patient / assistant |
-| content | Text | 대화 내용 |
-| timestamp | DateTime | 작성 시간 |
-
-### Paper
-
-| Property | Type | 설명 |
-|----------|------|------|
-| title | String | 논문 제목 |
-| year | Integer | 출판 연도 |
-| doi | String | DOI 식별자 |
+| Node | Properties |
+|---|---|
+| **Patient** | `patient_id`(String, 환자 고유 ID) · `name`(String, 이름) · `age`(Integer, 나이) · `gender`(String, 성별) · `pregnancy`(Boolean, 임신 여부) |
+| **Drug** | `drug_id`(String, 약물 고유 ID) · `drug_name`(String, 약물명) · `ingredient_code`(String, 주성분 코드) · `category`(String, 약물 계열(SSRI 등)) · `dosage`(String, 복용 용량) |
+| **Disease** | `disease_name`(String, 질환명) |
+| **SideEffect** | `side_effect_name`(String, 부작용명) · `frequency`(String, 발생 빈도) |
+| **Symptom** | `symptom_name`(String, 증상명) · `severity`(Integer, 증상 심각도) |
+| **Condition** | `condition_name`(String, 기저질환명) |
+| **ChatSession** | `session_id`(String, 상담 세션 ID) · `created_at`(DateTime, 생성 시간) |
+| **Message** | `message_id`(String, 메시지 ID) · `role`(String, patient / assistant) · `content`(Text, 대화 내용) · `timestamp`(DateTime, 작성 시간) |
+| **Paper** | `title`(String, 논문 제목) · `year`(Integer, 출판 연도) · `doi`(String, DOI 식별자) |
 
 ## GraphDB 활용
 
