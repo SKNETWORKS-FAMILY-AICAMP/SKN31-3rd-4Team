@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from state import State,RouteResult
 from qdrant_loader import retriever
@@ -5,6 +7,7 @@ from qdrant_loader import retriever
 llm = ChatOpenAI(model="gpt-5.4-mini")
 router_llm = llm.with_structured_output(RouteResult)
 
+load_dotenv()
 
 def chat_node(state: State):
     result = router_llm.invoke(state["messages"])
@@ -24,7 +27,6 @@ def entry_router(state: State):
     return "chat_node"
 
 
-
 def medicine_node(state: State):
 
     if not state.get("patient_info", {}).get("ingredient_code"):
@@ -42,8 +44,6 @@ def medicine_node(state: State):
     return {
         "medicine_side_effect": medicine_side_effect
     }
-
-
 
 
 def side_effect_node(state: State):
@@ -83,21 +83,22 @@ def side_effect_node(state: State):
     }
 
 
-CRITERIA_ORDER = [
+def side_effect_followup_node(state: State):
+    
+    CRITERIA_ORDER = [
     "onset_timing",         # 증상 시작 시점
     "dechallenge",           # 약 끊으면 호전되는지
     "alternative_causes",   # 다른 원인 가능성
     "prior_reaction",        # 과거 유사 반응 이력
-]
+    ]
 
-CRITERIA_QUESTIONS = {
-    "onset_timing": "증상이 약 복용 시점과 비교했을 때 언제부터 시작되었나요?",
-    "dechallenge": "약을 끊거나 줄였을 때 증상이 좋아지셨나요?",
-    "alternative_causes": "이 증상을 설명할 수 있는 다른 원인(다른 약, 질환 등)이 있으신가요?",
-    "prior_reaction": "예전에 이 약이나 비슷한 약을 드셨을 때도 비슷한 반응이 있었나요?",
-}
+    CRITERIA_QUESTIONS = {
+        "onset_timing": "증상이 약 복용 시점과 비교했을 때 언제부터 시작되었나요?",
+        "dechallenge": "약을 끊거나 줄였을 때 증상이 좋아지셨나요?",
+        "alternative_causes": "이 증상을 설명할 수 있는 다른 원인(다른 약, 질환 등)이 있으신가요?",
+        "prior_reaction": "예전에 이 약이나 비슷한 약을 드셨을 때도 비슷한 반응이 있었나요?",
+    }
 
-def side_effect_followup_node(state: State):
     idx = state["checklist_index"]
     last_user_answer = state["messages"][-1].content
 

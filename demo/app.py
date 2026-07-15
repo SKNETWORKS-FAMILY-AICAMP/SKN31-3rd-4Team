@@ -1,14 +1,23 @@
+import sys
 from pathlib import Path
+
+root_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(root_dir))
+sys.path.append(str(Path(__file__).resolve().parent))
+
 from dotenv import load_dotenv
-load_dotenv()
 import streamlit as st
 from db_utils import create_patient, create_patient_table
 from api_utils import get_api_response
+from graph_db.workflow import build_workflow
+from graph_db.chat_graph_db import ChatGraphDB
+
+load_dotenv()
 
 st.session_state.model = "gpt-5.4-mini"
 
 st.set_page_config(
-    page_title="복약 메이트 챗봇",
+    page_title="약한AI 복약 상담 챗봇",
     page_icon="💊",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -38,7 +47,7 @@ st.markdown(
     <div class="app-hero">
         <div class="emoji-badge">💊</div>
         <div>
-            <h1>복약 메이트 챗봇</h1>
+            <h1>약한AI 복약 상담 챗봇</h1>
             <p>정신질환 약물 부작용 상담 &amp; 복용 용법 안내를 도와드려요 🌤️</p>
         </div>
     </div>
@@ -46,6 +55,23 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown("---")
+if st.button("🧹 대화 초기화"):
+    if st.session_state.get("patient_id"):
+        chat_db = ChatGraphDB()
+        try:
+            session_id = chat_db.create_session(st.session_state.patient_id)
+            st.session_state.session_id = session_id
+            st.session_state.history = []
+            st.session_state.last_citations = []
+            st.session_state.neo4j_graph = chat_db.get_session_graph(session_id)
+        finally:
+            chat_db.close()  
+    else:
+        st.session_state.history = []
+        st.session_state.last_citations = []
+    st.rerun()
+    
 # ------------------------------------------------------------------
 #! 1. 사이드바 : 사용자 입력 정보
 # ------------------------------------------------------------------
@@ -76,10 +102,10 @@ def display_sidebar():
 
     st.sidebar.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
 
-    drug = st.sidebar.text_input("약제품명", placeholder="콘서타OROS서방정27mg")
+    drug = st.sidebar.text_input("약제품명", placeholder="라투다정")
 
     # 5. 주성분 코드
-    ingredient_code = st.sidebar.text_area("일단 주성분코드", placeholder="738600ATB", height=80)
+    ingredient_code = st.sidebar.text_area("일단 주성분코드", placeholder="729801ATB", height=80)
 
     st.sidebar.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
 
@@ -120,12 +146,11 @@ def display_patient_summary(patient):
             <span class="chip">🎂 {patient.get('age', '-')}세</span>
             <span class="chip {chip_gender_class}">{gender}</span>
             {pregnant_chip}
-            <span class="chip mint">💊 {patient.get('drug', '-')}</span>
+            <span class="chip">💊 {patient.get('drug', '-')}</span>
         </div>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
     )
-
 
 def display_chat_interface():
     #! [첫 호출]환자 기본 정보 입력 여부 확인
@@ -148,7 +173,10 @@ def display_chat_interface():
         st.session_state.thread_id = st.session_state.patient["thread_id"]
     if "patient_id" not in st.session_state:
         st.session_state.patient_id = st.session_state.patient["patient_id"]
-
+    if "workflow" not in st.session_state:
+        st.session_state.workflow = build_workflow(patient_id=st.session_state.patient_id)
+    if "last_citations" not in st.session_state:
+        st.session_state.last_citations = []
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -168,11 +196,12 @@ def display_chat_interface():
 
         with st.chat_message("assistant", avatar="💊"):
             with st.spinner("답변 생성 중... 🌤️"):
+                selected_model = st.session_state.get("model", "gpt-4o-mini")
                 response = get_api_response(
                     prompt=prompt,
-                    thread_id=st.session_state.thread_id,
-                    patient_info=st.session_state.patient,
-                    model=st.session_state.model
+                    thread_id=st.session_state.get("thread_id", "default-thread"),
+                    patient_info=st.session_state.get("patient", {}),
+                    model=selected_model
                 )
 
             if response is None:
