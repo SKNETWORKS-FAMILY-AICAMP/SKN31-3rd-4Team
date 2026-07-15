@@ -1,0 +1,32 @@
+# ── FastAPI 서버 ──
+fastapi
+uvicorn[standard]
+
+# ── Streamlit 클라이언트 ──
+streamlit>=1.38.0
+requests
+
+# ── LangChain / LangGraph 코어 ──
+langgraph>=0.2.45
+langchain>=0.3.7
+langchain-core>=0.3.15
+langchain-anthropic>=0.2.4
+langgraph-checkpoint-sqlite
+
+# ── LangSmith (트레이싱/디버깅) ──
+langsmith
+
+# ── LLM (OpenAI) ──
+langchain-openai>=0.2.6
+
+# ── Qdrant 및 db ──
+qdrant-client>=1.11.3
+langchain-qdrant
+neo4j>=5.24.0
+
+# ── 환경변수 및 기타──
+python-dotenv>=1.0.1
+pydantic>=2.9.2
+
+uvicorn main:app --reload
+streamlit run streamlit/app.py

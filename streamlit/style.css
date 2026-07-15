@@ -1,0 +1,241 @@
+/* ============================================================
+   css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+/* ---------- 색상 토큰 ---------- */
+:root {
+    --sky: #6EC6E8;
+    --sky-dark: #4AA9C7;
+    --sky-soft: #EAF6FC;
+    --sky-softer: #F5FBFF;
+    --mint: #DFF7EE;
+    --mint-text: #2E9E72;
+    --coral: #FFE3E3;
+    --coral-text: #E0685C;
+    --ink: #2E3A46;
+    --sub: #7C8A97;
+}
+
+/* ---------- 전역 폰트 / 배경 ---------- */
+html, body, [class*="css"] {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.stApp {
+    background: linear-gradient(160deg, #F5FBFF 0%, #EAF6FC 55%, #F7FCFF 100%);
+}
+
+/* ---------- 상단 히어로 카드 ---------- */
+.app-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 22px 28px;
+    box-shadow: 0 8px 24px rgba(110, 198, 232, 0.18);
+    margin-bottom: 22px;
+    border: 1px solid #E4F4FB;
+}
+
+.app-hero .emoji-badge {
+    font-size: 40px;
+    background: var(--sky-soft);
+    border-radius: 20px;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.app-hero h1 {
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--ink);
+    margin: 0;
+}
+
+.app-hero p {
+    margin: 4px 0 0 0;
+    color: var(--sub);
+    font-size: 14px;
+}
+
+/* ---------- 사이드바 ---------- */
+section[data-testid="stSidebar"] {
+    background: #FFFFFF;
+    border-right: 1px solid #E4F4FB;
+}
+
+section[data-testid="stSidebar"] .block-container {
+    padding-top: 1.6rem;
+}
+
+.sidebar-title {
+    font-family: 'Jua', sans-serif;
+    font-size: 19px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.sidebar-sub {
+    color: var(--sub);
+    font-size: 12.5px;
+    margin-bottom: 18px;
+}
+
+section[data-testid="stSidebar"] label {
+    font-weight: 500 !important;
+    color: var(--ink) !important;
+    font-size: 13.5px !important;
+}
+
+/* ---------- 입력 요소 ---------- */
+section[data-testid="stSidebar"] input,
+section[data-testid="stSidebar"] textarea,
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input {
+    border-radius: 14px !important;
+    border: 1.5px solid #DCEFF8 !important;
+    background-color: #FBFEFF !important;
+}
+
+section[data-testid="stSidebar"] input:focus,
+section[data-testid="stSidebar"] textarea:focus {
+    border-color: var(--sky) !important;
+    box-shadow: 0 0 0 3px rgba(110, 198, 232, 0.18) !important;
+}
+
+div[data-baseweb="select"] > div {
+    border-radius: 14px !important;
+    border: 1.5px solid #DCEFF8 !important;
+    background-color: #FBFEFF !important;
+}
+
+/* ---------- 버튼 ---------- */
+.stButton > button {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 0.6rem 1rem;
+    font-weight: 700;
+    box-shadow: 0 6px 14px rgba(74, 169, 199, 0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(74, 169, 199, 0.45);
+    color: white;
+}
+
+.stButton > button:active {
+    transform: translateY(0px);
+}
+
+/* ---------- 체크박스 ---------- */
+.stCheckbox label p {
+    color: var(--ink) !important;
+}
+
+/* ---------- 안내 카드 (정보 미입력 상태) ---------- */
+.info-card {
+    background: #FFFFFF;
+    border-radius: 24px;
+    padding: 26px 30px;
+    box-shadow: 0 8px 24px rgba(110, 198, 232, 0.15);
+    border: 1px solid #E4F4FB;
+    text-align: center;
+}
+
+.info-card .big-emoji {
+    font-size: 46px;
+    margin-bottom: 10px;
+}
+
+.info-card h3 {
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+.info-card p {
+    color: var(--sub);
+    font-size: 14.5px;
+}
+
+/* ---------- 환자 요약 배지 바 ---------- */
+.patient-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 16px 20px;
+    box-shadow: 0 6px 18px rgba(110, 198, 232, 0.15);
+    border: 1px solid #E4F4FB;
+    margin-bottom: 18px;
+    align-items: center;
+}
+
+.patient-bar .welcome {
+    font-family: 'Jua', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    margin-right: 6px;
+}
+
+.chip {
+    background: var(--sky-soft);
+    color: var(--sky-dark);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.chip.mint {
+    background: var(--mint);
+    color: var(--mint-text);
+}
+
+.chip.coral {
+    background: var(--coral);
+    color: var(--coral-text);
+}
+
+/* ---------- 채팅 메시지 ---------- */
+div[data-testid="stChatMessage"] {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 4px 6px;
+    box-shadow: 0 4px 14px rgba(110, 198, 232, 0.12);
+    border: 1px solid #EEF8FC;
+    margin-bottom: 10px;
+}
+
+div[data-testid="stChatInput"] textarea {
+    border-radius: 18px !important;
+    border: 1.5px solid #DCEFF8 !important;
+}
+
+/* ---------- 알림 배너 ---------- */
+div[data-testid="stAlert"] {
+    border-radius: 16px;
+}
+
+/* ---------- 기본 UI 요소 숨김 ---------- */
+footer, #MainMenu {
+    visibility: hidden;
+}
